@@ -113,7 +113,7 @@
 
     async function generateImage() {
       const prompt = document.getElementById('prompt').value;
-      const res = await fetch('https://your-n8n-instance/webhook/generate-image', {
+      const res = await fetch('https://bauti.app.n8n.cloud/webhook-test/generate-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, token: 'secret123' })
@@ -126,7 +126,7 @@
     }
 
     async function createShirt() {
-      const res = await fetch('https://your-n8n-instance/webhook/create-shirt', {
+      const res = await fetch('https://bauti.app.n8n.cloud/webhook-test/generate-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ image_url: window.generatedImage, token: 'secret123' })
