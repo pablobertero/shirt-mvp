@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Shirt Studio</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; color: #333; }
+    h1 { text-align: center; }
+    .section { margin: 40px 0; }
+    .carousel-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 10px;
+    }
+    .carousel {
+      display: inline-flex;
+      gap: 20px;
+    }
+    .product {
+      display: inline-block;
+      width: 280px;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .prompt-area {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #imagePreview {
+      max-width: 100%;
+      margin-top: 20px;
+      display: none;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .banner {
+      background: #fff7e6;
+      border: 1px solid #ffd700;
+      padding: 16px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      max-width: 700px;
+      margin: 20px auto;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    @media (max-width: 768px) {
+      body { margin: 20px; }
+      .carousel { gap: 10px; }
+      .product { width: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Design Your Own Shirt</h1>
+
+  <div class="banner">
+    Help us bridge the AI gap. Buy a shirt or create your own. All earnings go to kids in disadvantage.
+  </div>
+
+  <div class="section">
+    <h2>🛙 Buy Existing Designs</h2>
+    <div class="carousel-container">
+      <div class="carousel" id="productCarousel">
+        <!-- Shopify products will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎨 Create Your Own Shirt</h2>
+    <div class="prompt-area">
+      <input type="text" id="prompt" placeholder="Describe your design idea..." />
+      <button onclick="generateImage()">Generate Image</button>
+      <img id="imagePreview" />
+      <button onclick="createShirt()" style="display:none" id="createButton">Create Shirt</button>
+    </div>
+  </div>
+
+  <script>
+    let allProducts = [];
+
+    async function generateImage() {
+      const prompt = document.getElementById('prompt').value;
+      const res = await fetch('https://your-n8n-instance/webhook/generate-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, token: 'secret123' })
+      });
+      const data = await res.json();
+      document.getElementById('imagePreview').src = data.image_url;
+      document.getElementById('imagePreview').style.display = 'block';
+      document.getElementById('createButton').style.display = 'inline-block';
+      window.generatedImage = data.image_url;
+    }
+
+    async function createShirt() {
+      const res = await fetch('https://your-n8n-instance/webhook/create-shirt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_url: window.generatedImage, token: 'secret123' })
+      });
+      const data = await res.json();
+      window.location.href = data.shopify_url;
+    }
+
+    async function loadProducts() {
+      allProducts = [
+        { title: "Tiger Polo", price: "$25", image: "https://cdn.shopify.com/tiger.png", url: "https://yourshop.myshopify.com/products/tiger-polo" },
+        { title: "Andean Condor", price: "$30", image: "https://cdn.shopify.com/condor.png", url: "https://yourshop.myshopify.com/products/andean-condor" },
+        { title: "Horse Sketch", price: "$28", image: "https://cdn.shopify.com/horse.png", url: "https://yourshop.myshopify.com/products/horse-sketch" },
+        { title: "Sunset Gaucho", price: "$27", image: "https://cdn.shopify.com/sunset.png", url: "https://yourshop.myshopify.com/products/sunset-gaucho" },
+        { title: "Mountain Rider", price: "$29", image: "https://cdn.shopify.com/mountain.png", url: "https://yourshop.myshopify.com/products/mountain-rider" },
+        { title: "Polo Match", price: "$26", image: "https://cdn.shopify.com/polo.png", url: "https://yourshop.myshopify.com/products/polo-match" },
+        { title: "Condor Flight", price: "$31", image: "https://cdn.shopify.com/flight.png", url: "https://yourshop.myshopify.com/products/condor-flight" },
+        { title: "Rainy Day", price: "$24", image: "https://cdn.shopify.com/rainy.png", url: "https://yourshop.myshopify.com/products/rainy-day" },
+        { title: "Maradona Retro", price: "$32", image: "https://cdn.shopify.com/maradona.png", url: "https://yourshop.myshopify.com/products/maradona-retro" },
+        { title: "Abstract Pony", price: "$33", image: "https://cdn.shopify.com/pony.png", url: "https://yourshop.myshopify.com/products/abstract-pony" },
+        { title: "Extra Shirt", price: "$34", image: "https://cdn.shopify.com/extra.png", url: "https://yourshop.myshopify.com/products/extra-shirt" }
+      ];
+      renderCarousel();
+    }
+
+    function renderCarousel() {
+      const grid = document.getElementById('productCarousel');
+      grid.innerHTML = '';
+      allProducts.forEach(p => {
+        const html = `<div class="product">
+          <img src="${p.image}" />
+          <h3>${p.title}</h3>
+          <p>${p.price}</p>
+          <a href="${p.url}"><button>Buy Now</button></a>
+        </div>`;
+        grid.innerHTML += html;
+      });
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>
