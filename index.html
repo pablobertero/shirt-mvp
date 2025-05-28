@@ -122,7 +122,7 @@
   createButton.style.display = 'none';
 
   try {
-    const res = await fetch('https://bauti.app.n8n.cloud/webhook-test/generate-image', {
+    const res = await fetch('https://bauti.app.n8n.cloud/webhook/generate-image', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt }) // ← remove token here unless your webhook needs it
