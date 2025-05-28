@@ -112,18 +112,37 @@
     let allProducts = [];
 
     async function generateImage() {
-      const prompt = document.getElementById('prompt').value;
-      const res = await fetch('https://bauti.app.n8n.cloud/webhook-test/generate-image', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, token: 'secret123' })
-      });
-      const data = await res.json();
-      document.getElementById('imagePreview').src = data.image_url;
-      document.getElementById('imagePreview').style.display = 'block';
-      document.getElementById('createButton').style.display = 'inline-block';
+  const prompt = document.getElementById('prompt').value;
+  const imagePreview = document.getElementById('imagePreview');
+  const createButton = document.getElementById('createButton');
+
+  // Reset preview image and button
+  imagePreview.src = '';
+  imagePreview.style.display = 'none';
+  createButton.style.display = 'none';
+
+  try {
+    const res = await fetch('https://bauti.app.n8n.cloud/webhook-test/generate-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt }) // ← remove token here unless your webhook needs it
+    });
+
+    const data = await res.json();
+
+    if (data.image_url) {
+      imagePreview.src = data.image_url;
+      imagePreview.style.display = 'block';
+      createButton.style.display = 'inline-block';
       window.generatedImage = data.image_url;
+    } else {
+      alert('No image URL returned. Please try again.');
     }
+  } catch (err) {
+    console.error('Error generating image:', err);
+    alert('Something went wrong. Try again.');
+  }
+}
 
     async function createShirt() {
       const res = await fetch('https://bauti.app.n8n.cloud/webhook-test/generate-image', {
