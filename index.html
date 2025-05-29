@@ -160,20 +160,13 @@
 
     async function loadProducts() {
       allProducts = [
-        { title: "Tiger Polo", price: "$25", image: "https://cdn.shopify.com/tiger.png", url: "https://yourshop.myshopify.com/products/tiger-polo" },
-        { title: "Andean Condor", price: "$30", image: "https://cdn.shopify.com/condor.png", url: "https://yourshop.myshopify.com/products/andean-condor" },
-        { title: "Horse Sketch", price: "$28", image: "https://cdn.shopify.com/horse.png", url: "https://yourshop.myshopify.com/products/horse-sketch" },
-        { title: "Sunset Gaucho", price: "$27", image: "https://cdn.shopify.com/sunset.png", url: "https://yourshop.myshopify.com/products/sunset-gaucho" },
-        { title: "Mountain Rider", price: "$29", image: "https://cdn.shopify.com/mountain.png", url: "https://yourshop.myshopify.com/products/mountain-rider" },
-        { title: "Polo Match", price: "$26", image: "https://cdn.shopify.com/polo.png", url: "https://yourshop.myshopify.com/products/polo-match" },
-        { title: "Condor Flight", price: "$31", image: "https://cdn.shopify.com/flight.png", url: "https://yourshop.myshopify.com/products/condor-flight" },
-        { title: "Rainy Day", price: "$24", image: "https://cdn.shopify.com/rainy.png", url: "https://yourshop.myshopify.com/products/rainy-day" },
-        { title: "Maradona Retro", price: "$32", image: "https://cdn.shopify.com/maradona.png", url: "https://yourshop.myshopify.com/products/maradona-retro" },
-        { title: "Abstract Pony", price: "$33", image: "https://cdn.shopify.com/pony.png", url: "https://yourshop.myshopify.com/products/abstract-pony" },
-        { title: "Extra Shirt", price: "$34", image: "https://cdn.shopify.com/extra.png", url: "https://yourshop.myshopify.com/products/extra-shirt" }
+        { title: "Tiger Polo", price: "$25", image: "https://cdn.shopify.com/s/files/1/0800/images/tiger.png", url: "https://openpolo.com/products/tiger-polo" },
+        { title: "Andean Condor", price: "$30", image: "https://cdn.shopify.com/s/files/1/0800/images/condor.png", url: "https://openpolo.com/products/andean-condor" },
+        { title: "Horse Sketch", price: "$28", image: "https://cdn.shopify.com/s/files/1/0800/images/horse.png", url: "https://openpolo.com/products/horse-sketch" },
       ];
       renderCarousel();
     }
+
 
     function renderCarousel() {
       const grid = document.getElementById('productCarousel');
