@@ -163,18 +163,19 @@
         const res = await fetch('https://bauti.app.n8n.cloud/webhook/shopify-products');
         const json = await res.json();
     
-        allProducts = json.map(p => ({
-          title: p.title,
-          price: "$29", // You can add logic for price later
-          image: p.image,
-          url: `https://openpolo.com/products/${p.handle}`
+        allProducts = json.data.products.edges.map(({ node }) => ({
+          title: node.title,
+          price: "$29", // hardcode or update later with real variant.price
+          image: node.images.edges[0]?.node.url || '',
+          url: `https://openpolo.com/products/${node.handle}`
         }));
     
         renderCarousel();
       } catch (err) {
-        console.error("Failed to load products:", err);
+        console.error('Failed to load products:', err);
       }
     }
+
 
 
 
