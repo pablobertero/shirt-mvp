@@ -159,13 +159,23 @@
 
 
     async function loadProducts() {
-      allProducts = [
-        { title: "Tiger Polo", price: "$25", image: "https://cdn.shopify.com/s/files/1/0800/images/tiger.png", url: "https://openpolo.com/products/tiger-polo" },
-        { title: "Andean Condor", price: "$30", image: "https://cdn.shopify.com/s/files/1/0800/images/condor.png", url: "https://openpolo.com/products/andean-condor" },
-        { title: "Horse Sketch", price: "$28", image: "https://cdn.shopify.com/s/files/1/0800/images/horse.png", url: "https://openpolo.com/products/horse-sketch" },
-      ];
-      renderCarousel();
+      try {
+        const res = await fetch('https://bauti.app.n8n.cloud/webhook/shopify-products');
+        const json = await res.json();
+    
+        allProducts = json.map(p => ({
+          title: p.title,
+          price: "$29", // You can add logic for price later
+          image: p.image,
+          url: `https://openpolo.com/products/${p.handle}`
+        }));
+    
+        renderCarousel();
+      } catch (err) {
+        console.error("Failed to load products:", err);
+      }
     }
+
 
 
     function renderCarousel() {
